@@ -24,7 +24,9 @@
 	"keywords": [
 		""
 	],
-	"dependencies": {},
+	"dependencies": {
+		"math-clamp": "^1.0.0"
+	},
 	"devDependencies": {
 		"ava": "^0.25.0",
 		"xo": "^0.21.0"

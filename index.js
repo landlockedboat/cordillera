@@ -1,3 +1,5 @@
+const clamp = require('math-clamp');
+
 function Cordillera(detail, roughness) {
 	this.size = Math.pow(2, detail) + 1;
 	this.max = this.size - 1;
@@ -81,6 +83,29 @@ Cordillera.prototype.generate = function (roughness) {
 		]);
 		self.set(x, y, ave + offset);
 	}
+};
+
+Cordillera.prototype.getLevels = function (levels = 3) {
+	if (levels < 1) {
+		throw new Error(`Invalid number of levels: ${levels}`);
+	}
+	const min = this.minGenValue;
+	const max = this.maxGenValue;
+	const length = max - min;
+	const ret = [];
+
+	for (let y = 0; y < this.size; ++y) {
+		const row = [];
+		for (let x = 0; x < this.size; ++x) {
+			const tile = this.map[(y * this.size) + x];
+			const val = (tile - min) / length;
+			let out = Math.floor(val * levels);
+			out = clamp(out, 0, levels - 1);
+			row.push(out);
+		}
+		ret.push(row);
+	}
+	return ret;
 };
 
 module.exports = Cordillera;
