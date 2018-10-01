@@ -1,0 +1,32 @@
+{
+	"name": "cordillera",
+	"version": "0.0.0",
+	"description": "A heightmap generator",
+	"license": "MIT",
+	"repository": "vikepic/cordillera",
+	"author": {
+		"name": "vikepic",
+		"email": "valcazar96@gmail.com",
+		"url": "vikepic.github.io"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"ava": {
+		"verbose": true
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		""
+	],
+	"dependencies": {},
+	"devDependencies": {
+		"ava": "^0.25.0",
+		"xo": "^0.21.0"
+	}
+}
