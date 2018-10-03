@@ -1,7 +1,10 @@
 const clamp = require('math-clamp');
 
-function Cordillera(detail, roughness) {
+function Cordillera(roughness, width = 5, height = 5) {
+	const detail = Math.ceil(Math.sqrt(Math.max(width, height)));
 	this.size = Math.pow(2, detail) + 1;
+	this.width = width;
+	this.height = height;
 	this.max = this.size - 1;
 	this.maxGenValue = -Infinity;
 	this.minGenValue = Infinity;
@@ -83,6 +86,21 @@ Cordillera.prototype.generate = function (roughness) {
 		]);
 		self.set(x, y, ave + offset);
 	}
+
+	this._unflatten();
+};
+
+Cordillera.prototype._unflatten = function () {
+	const ret = [];
+	for (let y = 0; y < this.height; ++y) {
+		const row = [];
+		for (let x = 0; x < this.width; ++x) {
+			const tile = this.map[(y * this.size) + x];
+			row.push(tile);
+		}
+		ret.push(row);
+	}
+	this.map = ret;
 };
 
 Cordillera.prototype.getLevels = function (levels = 3) {
@@ -94,10 +112,10 @@ Cordillera.prototype.getLevels = function (levels = 3) {
 	const length = max - min;
 	const ret = [];
 
-	for (let y = 0; y < this.size; ++y) {
+	for (let y = 0; y < this.height; ++y) {
 		const row = [];
-		for (let x = 0; x < this.size; ++x) {
-			const tile = this.map[(y * this.size) + x];
+		for (let x = 0; x < this.width; ++x) {
+			const tile = this.map[y][x];
 			const val = (tile - min) / length;
 			let out = Math.floor(val * levels);
 			out = clamp(out, 0, levels - 1);
